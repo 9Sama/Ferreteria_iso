@@ -17,12 +17,17 @@ use Illuminate\Auth\Events\Login;
 |
 */
 
+Route::get('/bienvenido', function () {
+    return view('bienvenido');
+})->name('bienvenido');
+
 Route::get('/', function () {
     return view('index');
-});
+})->name('login');
+
 Route::post('/',[UserController::class,'login'])->name('user.login');
+Route::get('login/logout', [UserController::class, 'logout'])->name('user.logout');
 Route::resource('area',AreaController::class);
 Route::get('area/{id}/confirmar',[AreaController::class,'confirmar'])->name('area.confirmar');
 Route::resource('postulante',PostulanteController::class);
 Route::get('postulante/{id}/confirmar',[PostulanteController::class,'confirmar'])->name('postulante.confirmar');
-

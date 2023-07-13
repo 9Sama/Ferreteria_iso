@@ -18,17 +18,21 @@ class UserController extends Controller
             'name.required'=>'Ingrese Usuario',
             'password.required'=>'Ingrese Contraseña',
         ]);
-        if(Auth::attempt($data)){
-            $con='OK';
-        }
-        $name=$request->get('name');
-        $contraseña=$request->get('password');
+
+        $name = $request->input('name');
+        $contraseña = $request->input('password');
+
+        $credentials = [
+            'name' => $name,
+            'password' => $contraseña
+        ];
+
         $query=User::where('name','=',$name)->get();
-        $contra=User::where('password','=',$contraseña)->get();
+
         if($query->count()!=0)
         {
-            if($contra->count()!=0){
-                return view('bienvenido');
+            if (Auth::attempt($credentials)) {
+                return redirect()->route('bienvenido');
             }
             else
             {
@@ -38,5 +42,12 @@ class UserController extends Controller
         else{
             return back()->withErrors(['name'=>'Usuario no valido'])->withInput([request('name')]);
         }
+    }
+
+    public function logout()
+    {
+        auth()->logout();
+        session()->flush();
+        return redirect()->route('user.login');
     }
 }

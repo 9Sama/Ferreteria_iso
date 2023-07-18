@@ -71,7 +71,7 @@
                                             class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="{{ route('proveedores.index') }}">Proveedores</a></li>
-                                        <li><a href="#">Compras</a></li>
+                                        <li><a href="{{ route('compras.index') }}">Compras</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -176,6 +176,8 @@
 
     <!-- Custom Theme Scripts -->
     <script src="/adminlte/build/js/custom.min.js"></script>
+
+    @yield('js')
 
 </body>
 

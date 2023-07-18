@@ -42,29 +42,6 @@ create table persona(
     primary key(idpersona)
 );
 
-create table rol(
-    idrol int not null AUTO_INCREMENT,
-    nombre varchar(30) not null,
-    descripcion varchar(100) null,
-    estado bit default(1),
-    primary key(idrol)
-);
-
-create table usuario(
-    idusuario int not null AUTO_INCREMENT,
-    idrol int not null,
-    nombre varchar(100) not null,
-    tipo_documento varchar(20) null,
-    num_documento varchar(20) null,
-    direccion varchar(70) null,
-    telefono varchar(20) null,
-    email varchar(50) not null,
-    password varchar(20) not null,
-    estado char(1) default 1,
-    PRIMARY KEY (idusuario),
-    FOREIGN KEY(idrol) REFERENCES rol(idrol)
-);
-
 create table ingreso(
     idingreso int not null AUTO_INCREMENT,
     idproveedor int not null,
@@ -77,8 +54,7 @@ create table ingreso(
     total decimal (11,2) not null,
     estado varchar(20) not null,
     primary key(idingreso),
-    FOREIGN KEY (idproveedor) REFERENCES persona (idpersona),
-    FOREIGN KEY (idusuario) REFERENCES usuario (idusuario)
+    FOREIGN KEY (idproveedor) REFERENCES persona (idpersona)
 );
 
 create table detalle_ingreso(
@@ -104,8 +80,7 @@ create table venta(
     total decimal (11,2) not null,
     estado varchar(20) not null,
     primary key(idventa),
-    FOREIGN KEY (idcliente) REFERENCES persona (idpersona),
-    FOREIGN KEY (idusuario) REFERENCES usuario (idusuario)
+    FOREIGN KEY (idcliente) REFERENCES persona (idpersona)
 );
 
 create table detalle_venta(

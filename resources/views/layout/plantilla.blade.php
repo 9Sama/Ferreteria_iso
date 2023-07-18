@@ -67,6 +67,13 @@
                                         <li><a href="{{ URL::to('/postulante') }}">Postulantes</a></li>
                                     </ul>
                                 </li>
+                                <li><a><i class="fa fa-home"></i> Sistema de Compras <span
+                                            class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="{{ route('proveedores.index') }}">Proveedores</a></li>
+                                        <li><a href="#">Compras</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                     </div>

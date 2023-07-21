@@ -15,4 +15,7 @@ class Area extends Model
         'descripcion',
         'estado',
     ];
+    public function puesto(){
+        return $this->hasMany(puesto::class,'idpuesto','idpuesto');
+    }
 }

@@ -2,7 +2,7 @@
 @section('contenido')
 <div class="container">
     <h1>Listado de Areas</h1>
-    <a href="{{route('area.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i>Nuevo registro</a>
+    <a href="{{route('area.create')}}" class="btn btn-primary">Nuevo registro</a>
 
     <table class="table">
         <thead>

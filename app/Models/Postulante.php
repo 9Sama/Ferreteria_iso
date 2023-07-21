@@ -14,8 +14,10 @@ class Postulante extends Model
         'dni',
         'apellidos',
         'nombres',
+        'direccion',
+        'celular',
+        'fechanac',
         'gradoEstudios',
         'centroEstudios',
-        'estado'
     ];
 }

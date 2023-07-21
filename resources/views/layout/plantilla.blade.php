@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="images/favicon.ico" type="image/ico" />
 
-    <title>Gentelella Alela!</title>
+    <title>Ferreteria</title>
 
     <!-- Bootstrap -->
     <link href="/adminlte/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -45,7 +45,6 @@
             <div class="profile clearfix">
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>John Doe</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -60,10 +59,10 @@
                   <li><a><i class="fa fa-home"></i> Sistema Personal <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{{URL::to('/area')}}">Areas</a></li>
-                      <li><a href="#">Puestos</a></li>
-                      <li><a href="#">Plazas</a></li>
-                      <li><a href="#">Base Evaluación</a></li>
+                      <li><a href="{{URL::to('/puesto')}}">Puestos</a></li>
+                      <li><a href="{{URL::to('/plaza')}}">Plazas</a></li>
                       <li><a href="{{URL::to('/postulante')}}">Postulantes</a></li>
+                      <li><a href="{{URL::to('/personal')}}">Personal</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -164,6 +163,5 @@
 
     <!-- Custom Theme Scripts -->
     <script src="/adminlte/build/js/custom.min.js"></script>
-	
   </body>
 </html>

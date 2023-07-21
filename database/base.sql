@@ -94,3 +94,4 @@ create table detalle_venta(
     FOREIGN KEY (idventa) REFERENCES venta (idventa) ON DELETE CASCADE,
     FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo)
 );
+

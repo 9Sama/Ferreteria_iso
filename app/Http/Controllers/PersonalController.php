@@ -23,7 +23,7 @@ class PersonalController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create2($id)
+    public function create($id)
     {
         $postulante=Postulante::findOrFail($id);
         $puesto = Puesto::all();
@@ -57,7 +57,7 @@ class PersonalController extends Controller
             'sueldo.required' => 'Ingrese sueldo del personal',
             'idpuesto.required' => 'Ingrese puesto del personal',
         ]);
-        
+
         $personal=new Personal();
         $postulante=Postulante::findOrFail($request->idpostulante);
         $personal->dni=$postulante->dni;
@@ -77,7 +77,7 @@ class PersonalController extends Controller
         ->pluck('plaza.idplaza')
         ->first();
         $plaza=Plaza::findOrFail($idPlaza);
-        
+
         if($plaza->cantidad > 0)
         {
             $plaza->cantidad=$plaza->cantidad-1;

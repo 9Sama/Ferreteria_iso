@@ -4,8 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Auth\Events\Login;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\CompraController;
+use App\Http\Controllers\PersonalController;
+use App\Http\Controllers\PlazaController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\PostulanteController;
+use App\Http\Controllers\PuestoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\VentaController;
@@ -35,6 +38,13 @@ Route::resource('area',AreaController::class);
 Route::get('area/{id}/confirmar',[AreaController::class,'confirmar'])->name('area.confirmar');
 Route::resource('postulante',PostulanteController::class);
 Route::get('postulante/{id}/confirmar',[PostulanteController::class,'confirmar'])->name('postulante.confirmar');
+Route::resource('puesto',PuestoController::class);
+Route::get('puesto/{id}/confirmar',[PuestoController::class,'confirmar'])->name('puesto.confirmar');
+Route::resource('plaza',PlazaController::class);
+Route::get('plaza/{id}/confirmar',[PlazaController::class,'confirmar'])->name('plaza.confirmar');
+Route::resource('personal',PersonalController::class);
+Route::get('personal/{id}/confirmar',[PersonalController::class,'confirmar'])->name('personal.confirmar');
+Route::get('personal/{id}/create2',[PersonalController::class,'create2'])->name('personal.create2');
 
 // Proveedor
 Route::get('personas/proveedor', [ProveedorController::class, 'index'])->name('proveedores.index');

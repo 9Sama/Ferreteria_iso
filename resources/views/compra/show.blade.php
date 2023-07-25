@@ -104,64 +104,6 @@
                     <a href="{{ route('compras.index') }}" class="btn btn-default float-right" style="margin-right: 5px;">
                         <i class="fa fa-reply fa-lg mr-2"></i> Regresar
                     </a>
-                    <button class="btn btn-danger float-right" style="margin-right: 5px;" data-toggle="modal"
-                        data-target="#rejectOrder_{{ $compra->idingreso }}">Rechazar</button>
-                    <button class="btn btn-success float-right" style="margin-right: 5px;" data-toggle="modal"
-                        data-target="#approveOrder_{{ $compra->idingreso }}">Aprobar</button>
-                </div>
-            </div>
-
-            <!-- Modal update supplier-->
-            <div class="modal fade" id="approveOrder_{{ $compra->idingreso }}" tabindex="-1"
-                aria-labelledby="approveOrderLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="approveOrderLabel">Editar compra</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form action="{{ route('compras.approve', $compra->idingreso) }}" method="POST">
-                            @csrf
-                            @method('put')
-                            <div class="modal-body">
-                                <p>Estas seguro de aceptar la compra
-                                    {{ $compra->serie_comprobante }}-{{ $compra->num_comprobante }}?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-success">Aprobar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal update supplier-->
-            <div class="modal fade" id="rejectOrder_{{ $compra->idingreso }}" tabindex="-1"
-                aria-labelledby="rejectOrderLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="rejectOrderLabel">Eliminar compra</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form action="{{ route('compras.reject', $compra->idingreso) }}" method="POST">
-                            @csrf
-                            @method('put')
-                            <div class="modal-body">
-                                <p>Estas seguro de rechazar la compra
-                                    {{ $compra->serie_comprobante }}-{{ $compra->num_comprobante }}?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-danger">Rechazar</button>
-                            </div>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>

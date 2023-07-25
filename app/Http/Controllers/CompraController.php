@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Articulo;
 use App\Models\Compra;
 use App\Models\CompraDetail;
 use App\Models\Persona;
@@ -24,6 +25,7 @@ class CompraController extends Controller
                     ->where('p.tipo_persona', 'proveedor')
                     ->select('ingreso.idingreso', 'p.idpersona', 'p.nombre', 'ingreso.idusuario', 'ingreso.tipo_comprobante', 'ingreso.serie_comprobante',
                              'ingreso.num_comprobante', 'ingreso.fecha', 'ingreso.impuesto', 'ingreso.total', 'ingreso.estado')
+                    ->orderBy('ingreso.idingreso')
                     ->get();
         return view('compra.index', compact('proveedores', 'compras'));
     }
@@ -33,7 +35,6 @@ class CompraController extends Controller
         $proveedores = Persona::where('tipo_persona', 'proveedor')->get();
         $articulos = DB::table('articulo as a')
             ->join('categoria as c', 'a.idcategoria', 'c.idcategoria')
-            ->where('a.estado', 1)
             ->where('c.estado', 1)
             ->select('a.idarticulo', 'c.idcategoria', 'c.nombre', 'a.codigo', 'a.nombre', 'a.precio_venta', 'a.stock', 'a.descripcion', 'a.estado')
             ->get();
@@ -46,6 +47,11 @@ class CompraController extends Controller
         $ids = $request->idarticulos;
         $cantidades = $request->cantidadarticulos;
         $precios = $request->preciosarticulos;
+
+        $new_codigos = $request->new_codigoarticulos;
+        $new_nombres = $request->new_nombres;
+        $new_precios = $request->new_preciosarticulos;
+        $new_cantidades = $request->new_cantidadarticulos;
 
         if (Compra::all()->count()) {
             $last_compra_id = Compra::all()->last()->idingreso+1;
@@ -73,12 +79,46 @@ class CompraController extends Controller
                 $detalle_c->idarticulo = $ids[$i];
                 $detalle_c->cantidad = $cantidades[$i];
                 $detalle_c->precio = $precios[$i];
+                $detalle_c->estado = 5;
                 $detalle_c->save();
                 DB::table('ingreso')->where('idingreso', $last_compra_id)->incrementEach([
                     'total' => $cantidades[$i] * $precios[$i],
                     'impuesto' => $cantidades[$i] * $precios[$i] * 0.18
                 ]);
-                DB::table('articulo')->where('idarticulo', $ids[$i])->increment('stock', $cantidades[$i]);
+                // DB::table('articulo')->where('idarticulo', $ids[$i])->increment('stock', $cantidades[$i]);
+                // DB::table('articulo')->where('idarticulo', $ids[$i])->update(['estado'=> 3]);
+            }
+        }
+
+        if($new_codigos != null){
+            for($i=0;$i<count($new_codigos);$i++){
+
+                if (Articulo::all()->count()) {
+                    $last_articulo_id = Articulo::all()->last()->idarticulo+1;
+                } else {
+                    $last_articulo_id = 1;
+                }
+
+                $new_articulo = new Articulo();
+                $new_articulo->idarticulo = $last_articulo_id;
+                $new_articulo->codigo = $new_codigos[$i];
+                $new_articulo->nombre = $new_nombres[$i];
+                $new_articulo->precio_venta = $new_precios[$i];
+                $new_articulo->stock = 0;
+                $new_articulo->estado = 4;
+                $new_articulo->save();
+
+                $detalle_c = new CompraDetail();
+                $detalle_c->idingreso = $last_compra_id;
+                $detalle_c->idarticulo = $last_articulo_id;
+                $detalle_c->cantidad = $new_cantidades[$i];
+                $detalle_c->precio = $new_precios[$i];
+                $detalle_c->estado = 5;
+                $detalle_c->save();
+                DB::table('ingreso')->where('idingreso', $last_compra_id)->incrementEach([
+                    'total' => $new_cantidades[$i] * $new_precios[$i],
+                    'impuesto' => $new_cantidades[$i] * $new_precios[$i] * 0.18
+                ]);
             }
         }
         return redirect()->route('compras.index');
@@ -92,7 +132,7 @@ class CompraController extends Controller
         $compra_details = DB::table('detalle_ingreso as di')
             ->join('articulo as a', 'di.idarticulo', 'a.idarticulo')
             ->where('di.idingreso', $id)
-            ->select('di.cantidad as quantity', 'a.nombre as name', 'a.codigo as id', DB::raw('di.cantidad * di.precio as totalprice'))
+            ->select('di.iddetalle_ingreso', 'di.cantidad as quantity', 'a.nombre as name', 'a.codigo as id', DB::raw('di.cantidad * di.precio as totalprice'), 'di.estado')
             ->get();
 
         $compra = Compra::findOrFail($id);
@@ -111,16 +151,32 @@ class CompraController extends Controller
         }else if($compra->idingreso > 99999 && $compra->idingreso < 1000000){
             $num_compra = "#".$compra->idingreso;
         }
-        return view('compra.show', compact('date', 'num_compra', 'compra', 'compra_details', 'usuario'));
+        return view('compra.show', compact('date', 'num_compra', 'compra', 'compra_details', 'usuario', 'id'));
     }
 
     public function approve(int $id)
     {
+        $detalle_compras = DB::table('detalle_ingreso')->where('idingreso', $id)->get();
+
+        foreach ($detalle_compras as $detalle) {
+            $new_articulo = Articulo::where('idarticulo', $detalle->idarticulo)->first();
+            $new_articulo->stock += $detalle->cantidad;
+            if ($new_articulo) {
+                if ($new_articulo->estado != 4) {
+                    $new_articulo->estado = 3;
+                } else {
+                    $new_articulo->estado = 0;
+                }
+
+                $new_articulo->save();
+            }
+        }
+
         Compra::findOrFail($id)->update([
             'estado' => 'ACEPTADO'
         ]);
 
-        return redirect()->route('compras.index');
+        return redirect()->route('almacen.index');
     }
     public function reject(int $id)
     {
@@ -128,6 +184,6 @@ class CompraController extends Controller
             'estado' => 'RECHAZADO'
         ]);
 
-        return redirect()->route('compras.index');
+        return redirect()->route('almacen.index');
     }
 }

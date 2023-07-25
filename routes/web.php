@@ -2,10 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Auth\Events\Login;
+use App\Http\Controllers\AlmacenController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\PersonalController;
 use App\Http\Controllers\PlazaController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\PostulanteController;
 use App\Http\Controllers\PuestoController;
@@ -73,3 +75,20 @@ Route::post('ventas/guardar', [VentaController::class, 'store'])->name('ventas.s
 Route::get('ventas/mostrar/{id}', [VentaController::class, 'show'])->name('ventas.show');
 Route::put('ventas/aprobar/{id}', [VentaController::class, 'approve'])->name('ventas.approve');
 Route::put('ventas/rechazar/{id}', [VentaController::class, 'reject'])->name('ventas.reject');
+
+// Products
+Route::get('products', [ProductController::class, 'index'])->name('products.index');
+Route::post('products', [ProductController::class, 'store'])->name('products.store');
+Route::put('products/{id}', [ProductController::class, 'update'])->name('products.update');
+Route::delete('products/{id}', [ProductController::class, 'destroy'])->name('products.delete');
+
+// Almacen
+Route::get('almacen', [AlmacenController::class, 'index'])->name('almacen.index');
+Route::get('almacen/products', [AlmacenController::class, 'getAllProducts'])->name('almacen.products.index');
+Route::post('almacen/products', [AlmacenController::class, 'store'])->name('almacen.products.store');
+Route::post('almacen/categories', [AlmacenController::class, 'addCategory'])->name('almacen.categories.store');
+Route::put('almacen/products/{id}', [AlmacenController::class, 'update'])->name('almacen.products.update');
+Route::delete('almacen/products/{id}', [AlmacenController::class, 'destroy'])->name('almacen.products.delete');
+Route::get('almacen/products/show/{id}', [AlmacenController::class, 'show'])->name('almacen.show');
+Route::put('almacen/registrar/{id}', [AlmacenController::class, 'register'])->name('almacen.register');
+Route::put('almacen/products/change/{id}/{compra_id}', [AlmacenController::class, 'changeState'])->name('almacen.change');

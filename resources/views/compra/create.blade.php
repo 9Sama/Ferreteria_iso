@@ -52,7 +52,7 @@
                                 <label for="products">Agregar Productos</label>
                                 <select name="idarticulo" id="select-idarticulo" class="form-control"
                                     onchange="addProductOrder();">
-                                    <option value="">Seleccione productos</option>
+                                    <option value="">Producto nuevo</option>
                                     @foreach ($articulos as $articulo)
                                         <option
                                             value="{{ $articulo->idarticulo }}_{{ $articulo->codigo }}_{{ $articulo->nombre }}_{{ $articulo->precio_venta }}">
@@ -72,6 +72,7 @@
                                     <tr>
                                         <th class="text-center">Código</th>
                                         <th class="text-center">Nombre</th>
+                                        <th class="text-center">Precio</th>
                                         <th class="text-center">Cantidad</th>
                                         <th class="text-center"></th>
                                     </tr>
@@ -92,4 +93,13 @@
 
 @section('js')
     <script src="{{ asset('js/product_add.js') }}"></script>
+    <script>
+        document.getElementById('options').addEventListener('change', function() {
+            var selectedOption = this.value;
+            if (selectedOption === "0") {
+                alert('Primero debes seleccionar una opción diferente a la opción 0.');
+                this.selectedIndex = 0; // Selecciona el primer elemento (Seleccione una opción)
+            }
+        });
+    </script>
 @endsection

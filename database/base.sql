@@ -24,13 +24,13 @@ create table categoria(
 
 create table articulo(
     idarticulo int not null AUTO_INCREMENT,
-    idcategoria int not null,
+    idcategoria int null,
     codigo varchar(50) null,
     nombre varchar(100) not null unique,
     precio_venta decimal(11,2) not null,
     stock int not null,
     descripcion varchar(256) null,
-    estado bit default(1),
+    estado char(1),
     primary key(idarticulo),
     FOREIGN KEY (idcategoria) REFERENCES categoria(idcategoria)
 );
@@ -55,7 +55,7 @@ create table ingreso(
     serie_comprobante varchar(7) null,
     num_comprobante varchar (10) not null,
     fecha datetime not null,
-    impuesto decimal (4,2) not null,
+    impuesto decimal (11,2) not null,
     total decimal (11,2) not null,
     estado varchar(20) not null,
     primary key(idingreso),
@@ -68,6 +68,7 @@ create table detalle_ingreso(
     idarticulo int not null,
     cantidad int not null,
     precio decimal(11,2) not null,
+    estado char(1) null,
     primary key(iddetalle_ingreso),
     FOREIGN KEY (idingreso) REFERENCES ingreso (idingreso) ON DELETE CASCADE,
     FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo)
@@ -81,7 +82,7 @@ create table venta(
     serie_comprobante varchar(7) null,
     num_comprobante varchar (10) not null,
     fecha_hora datetime not null,
-    impuesto decimal (4,2) not null,
+    impuesto decimal (11,2) not null,
     total decimal (11,2) not null,
     estado varchar(20) not null,
     primary key(idventa),
@@ -94,7 +95,7 @@ create table detalle_venta(
     idarticulo int not null,
     cantidad int not null,
     precio decimal(11,2) not null,
-    descuento decimal(11,2) not null,
+    descuento decimal(11,2) not null default 0.00,
     primary key(iddetalle_venta),
     FOREIGN KEY (idventa) REFERENCES venta (idventa) ON DELETE CASCADE,
     FOREIGN KEY (idarticulo) REFERENCES articulo (idarticulo)

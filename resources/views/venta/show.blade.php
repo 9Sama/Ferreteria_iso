@@ -30,6 +30,13 @@
                     <b>venta {{ $num_venta }}</b><br>
                     <br>
                     <b>Fecha de pago:</b> {{ Carbon\Carbon::parse($venta->fecha)->format('d/m/Y') }}<br>
+                    <b>Delivery:</b>
+                    @if ($venta->delivery == 0)
+                        Recojo en tienda
+                    @else
+                        Envío a domicilio
+                    @endif
+                    <br>
                 </div>
                 <!-- /.col -->
             </div>

@@ -23,7 +23,7 @@ class VentaController extends Controller
         $ventas = Venta::join('persona as p', 'venta.idcliente', 'p.idpersona')
                     ->where('p.tipo_persona', 'cliente')
                     ->select('venta.idventa', 'p.idpersona', 'p.nombre', 'venta.idusuario', 'venta.tipo_comprobante', 'venta.serie_comprobante',
-                             'venta.num_comprobante', 'venta.fecha_hora', 'venta.impuesto', 'venta.total', 'venta.estado')
+                             'venta.num_comprobante', 'venta.fecha_hora', 'venta.impuesto', 'venta.total', 'venta.estado', 'venta.delivery')
                     ->get();
         return view('venta.index', compact('clientes', 'ventas'));
     }
@@ -33,7 +33,7 @@ class VentaController extends Controller
         $clientes = Persona::where('tipo_persona', 'cliente')->get();
         $articulos = DB::table('articulo as a')
             ->join('categoria as c', 'a.idcategoria', 'c.idcategoria')
-            ->where('a.estado', 1)
+            ->where('a.estado', 3)
             ->where('c.estado', 1)
             ->select('a.idarticulo', 'c.idcategoria', 'c.nombre', 'a.codigo', 'a.nombre', 'a.precio_venta', 'a.stock', 'a.descripcion', 'a.estado')
             ->get();
@@ -64,6 +64,7 @@ class VentaController extends Controller
         $venta->total = 0;
         $venta->impuesto = 0;
         $venta->estado = 'PENDIENTE';
+        $venta->delivery = $request->delivery;
         $venta->save();
 
         if($ids != null){

@@ -18,16 +18,8 @@ function addProductOrder() {
         fila = '<tr id="filaz' + index + '">'+
         '<td class="text-center"><input type="hidden" name="codigoarticulos[]" value="' + productdata[1] + '">' + productdata[1] + '</td>'+
         '<td class="text-center"><input type="hidden" name="idarticulos[]" value="' + productdata[0] + '">' + productdata[2] + '</td>'+
-        '<td class="text-center"><input type="hidden" name="preciosarticulos[]" value="' + productdata[3] + '">' + productdata[3] + '</td>'+
+        '<td class="text-center"><input type="text" class="form-control" readonly name="preciosarticulos[]" value="' + productdata[3] + '"></td>'+
         '<td class="text-center"><input class="form-control text-center" name="cantidadarticulos[]"></td>'+
-        '<td class="text-center"><a href="javascript:void(0)" class="btn btn-default btn-xs" onclick="quitars(' + index + ')">Quitar</a></td></tr>';
-        $('#product_detail').append(fila);
-    }else{
-        fila = '<tr id="filaz' + index + '">'+
-        '<td class="text-center"><input class="form-control type="text" name="new_codigoarticulos[]"></td>'+
-        '<td class="text-center"><input class="form-control type="text" name="new_nombres[]"></td>'+
-        '<td class="text-center"><input class="form-control type="text" name="new_preciosarticulos[]"></td>'+
-        '<td class="text-center"><input class="form-control text-center" name="new_cantidadarticulos[]"></td>'+
         '<td class="text-center"><a href="javascript:void(0)" class="btn btn-default btn-xs" onclick="quitars(' + index + ')">Quitar</a></td></tr>';
         $('#product_detail').append(fila);
     }

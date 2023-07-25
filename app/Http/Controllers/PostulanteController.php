@@ -12,7 +12,7 @@ class PostulanteController extends Controller
      */
     public function index()
     {
-        $postulante=Postulante::where('estado','=','1')->get();
+        $postulante=Postulante::all();
         return view('postulante.index',compact('postulante'));
     }
 
@@ -29,13 +29,44 @@ class PostulanteController extends Controller
      */
     public function store(Request $request)
     {
+        $data=request()->validate([
+            'dni'=>'required|digits:8|unique:postulante,dni',
+            'apellidos'=> 'required|max:35',
+            'nombres'=> 'required|max:40',
+            'gradoEstudios'=> 'required|max:40',
+            'centroEstudios'=> 'required|max:45',
+            'celular'=> 'required|digits:9|unique:postulante,celular',
+            'direccion'=> 'required|max:30',
+            'fechanac'=> 'required',
+        ],
+        [
+            'dni.required' => 'Ingrese dni del postulante',
+            'dni.max' => 'El dni debe tener 8 caracteres',
+            'dni.unique' => 'Ya existe un postulante con dicho dni',
+            'nombres.required' => 'Ingrese nombres del postulante para registrarse.',
+            'nombres.max' => 'Los nombres del postulante puede tener maximo 35 caracteres.',
+            'apellidos.required' => 'Ingrese apellidos del postulante para registrarse.',
+            'apellidos.max' => 'Los apellidos puede tener maximo 30 caracteres.',
+            'celular.required' => 'Ingrese telefono',
+            'celular.max' => 'El telefono debe tener 9 caracteres',
+            'celular.unique' => 'Ya existe un postulante con dicho telefono',
+            'gradoEstudios.required' => 'Ingrese gradoEstudios del postulante',
+            'gradoEstudios.max' => 'gradoEstudios puede tener maximo 40 caracteres.',
+            'centroEstudios.required' => 'Ingrese centroEstudios del postulante',
+            'centroEstudios.max' => 'centroEstudios puede tener maximo 45 caracteres.',
+            'direccion.required' => 'Ingrese direccion del postulante',
+            'direccion.max' => 'Direccion puede tener maximo 30 caracteres.',
+            'fechanac.required' => 'Ingrese fechanacimiento del postulante',
+        ]);
         $postulante=new Postulante();
         $postulante->dni=$request->dni;
         $postulante->apellidos=$request->apellidos;
         $postulante->nombres=$request->nombres;
         $postulante->gradoEstudios=$request->gradoEstudios;
         $postulante->centroEstudios=$request->centroEstudios;
-        $postulante->estado='1';
+        $postulante->celular=$request->celular;
+        $postulante->direccion=$request->direccion;
+        $postulante->fechanac=$request->fechanac;
         $postulante->save();
         return redirect()->route('postulante.index');
     }
@@ -68,6 +99,9 @@ class PostulanteController extends Controller
         $postulante->nombres=$request->nombres;
         $postulante->gradoEstudios=$request->gradoEstudios;
         $postulante->centroEstudios=$request->centroEstudios;
+        $postulante->celular=$request->celular;
+        $postulante->direccion=$request->direccion;
+        $postulante->fechanac=$request->fechanac;
         $postulante->save();
         return redirect()->route('postulante.index');
     }
@@ -82,8 +116,7 @@ class PostulanteController extends Controller
     public function destroy(string $id)
     {
         $postulante=Postulante::findOrFail($id);
-        $postulante->estado='0';
-        $postulante->save();
+        $postulante->delete();
         return redirect(route('postulante.index'));
     }
 }

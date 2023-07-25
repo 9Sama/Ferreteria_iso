@@ -29,6 +29,17 @@ class AreaController extends Controller
      */
     public function store(Request $request)
     {
+        $data=request()->validate([
+            'nombre'=> 'required|max:30|unique:area,nombre',
+            'descripcion'=>'required|max:40',
+        ],
+        [
+            'nombre.required' => 'Ingrese nombre de area',
+            'nombre.max' => 'El nombre debe tener max 30 caracteres',
+            'nombre.unique' => 'Ya existe un area con dicho nombre',
+            'descripcion.required' => 'Ingrese descripcion del area para registrar.',
+            'descripcion.max' => 'La descripcion puede tener maximo 50 caracteres.',
+        ]);
         $area=new Area();
         $area->nombre=$request->nombre;
         $area->descripcion=$request->descripcion;

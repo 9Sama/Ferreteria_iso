@@ -1,9 +1,9 @@
 @extends('layout.plantilla')
 @section('contenido')
     <div class="container">
-        <h1>Registrar Compras</h1>
+        <h1>Registrar ventas</h1>
 
-        <form action="{{ route('compras.store') }}" method="POST">
+        <form action="{{ route('ventas.store') }}" method="POST">
             @csrf
             <div class="row">
                 <div class="col-5">
@@ -20,7 +20,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="fecha">Comprabante</label>
+                                <label for="fecha">Comprobante</label>
                                 <div class="row">
                                     <div class="col-4">
                                         <select name="tipo_comprobante" class="form-control">
@@ -40,11 +40,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="supplier">Proveedor</label>
+                                <label for="supplier">Cliente</label>
                                 <select name="idpersona" class="form-control" required>
                                     <option value="">Seleccione ...</option>
-                                    @foreach ($proveedores as $proveedor)
-                                        <option value="{{ $proveedor->idpersona }}">{{ $proveedor->nombre }}</option>
+                                    @foreach ($clientes as $cliente)
+                                        <option value="{{ $cliente->idpersona }}">{{ $cliente->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -52,13 +52,23 @@
                                 <label for="products">Agregar Productos</label>
                                 <select name="idarticulo" id="select-idarticulo" class="form-control"
                                     onchange="addProductOrder();">
-                                    <option value="">Producto nuevo</option>
+                                    <option value="">Seleccione productos</option>
                                     @foreach ($articulos as $articulo)
                                         <option
                                             value="{{ $articulo->idarticulo }}_{{ $articulo->codigo }}_{{ $articulo->nombre }}_{{ $articulo->precio_venta }}">
                                             {{ $articulo->nombre }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Delivery</label>
+                                <div class="row">
+                                    <label for="">Recojo en tienda</label>
+                                    <input type="radio" value="0" name="delivery[]">
+
+                                    <label for="">Envío a domicilio</label>
+                                    <input type="radio" value="1" name="delivery[]">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -92,14 +102,5 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset('js/product_add.js') }}"></script>
-    <script>
-        document.getElementById('options').addEventListener('change', function() {
-            var selectedOption = this.value;
-            if (selectedOption === "0") {
-                alert('Primero debes seleccionar una opción diferente a la opción 0.');
-                this.selectedIndex = 0; // Selecciona el primer elemento (Seleccione una opción)
-            }
-        });
-    </script>
+    <script src="{{ asset('js/product_sale.js') }}"></script>
 @endsection

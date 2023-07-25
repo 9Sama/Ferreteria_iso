@@ -60,15 +60,24 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="">Delivery</label>
-                                <div class="row">
-                                    <label for="">Recojo en tienda</label>
-                                    <input type="radio" value="0" name="delivery[]">
 
-                                    <label for="">Envío a domicilio</label>
-                                    <input type="radio" value="1" name="delivery[]">
+                            <label for="">Delivery</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="radio" name="delivery" value="0">
+                                    </div>
                                 </div>
+                                <input type="text" class="form-control" value="Recojo en tienda" readonly>
+                            </div>
+
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="radio" name="delivery" value="1">
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" value="Envío a domicilio" readonly>
                             </div>
                         </div>
                     </div>

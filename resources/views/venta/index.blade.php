@@ -12,6 +12,7 @@
                     <th scope="col">Proveedor</th>
                     <th scope="col">Impuesto</th>
                     <th scope="col">Total</th>
+                    <th scope="col">Delivery</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Opciones</th>
                 </tr>
@@ -24,6 +25,11 @@
                         <td>{{ $venta->nombre }}</td>
                         <td>{{ $venta->impuesto }}</td>
                         <td>{{ $venta->total }}</td>
+                        @if ($venta->delivery == 0)
+                            <td>Recojo en tienda</td>
+                        @elseif ($venta->delivery == 1)
+                            <td>Envío a domicilio</td>
+                        @endif
                         <td>{{ $venta->estado }}</td>
                         <td>
                             <a href="{{ route('ventas.show', $venta->idventa) }}" class="btn btn-info btn-sm">
